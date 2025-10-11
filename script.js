@@ -41,14 +41,38 @@ function Tree(array) {
     if (node.left !== null) {
       prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
-  };
+  }
+
+  function insert(root, value) {
+    let currentNode = root;
+
+    while(currentNode.data !== value){
+      if(value < currentNode.data){
+        if(currentNode.left === null && currentNode.right === null){
+          currentNode.left = Node(value);
+          return;
+        }
+        currentNode = currentNode.left;
+      }
+      else if(value > currentNode.data){
+        if(currentNode.left === null && currentNode.right === null){
+          currentNode.right = Node(value);
+          return;
+        }
+        currentNode = currentNode.right;
+      }
+    }
+
+  }
 
   return{
     root,
     prettyPrint,
+    insert,
   }
 }
 
 
 let bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+bst.insert(bst.root, 2)
 bst.prettyPrint(bst.root);
