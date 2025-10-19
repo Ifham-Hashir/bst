@@ -62,17 +62,52 @@ function Tree(array) {
         currentNode = currentNode.right;
       }
     }
+  }
 
+  function getSuccessor(currentNode){
+    currentNode = currentNode.right;
+    while(currentNode !== null && currentNode.left !== null){
+      currentNode = currentNode.left;
+    }
+    return currentNode;
+  }
+
+  function deleteItem(root,value){
+    if (root === null){
+      return root;
+    }
+
+    if (root.data < value){
+      root.right = deleteItem(root.right, value);
+    }
+    else if (root.data > value){
+      root.left = deleteItem(root.left, value);
+    }
+    else {
+      if (root.left === null) {
+        return root.right;
+      }
+      if (root.right === null) {
+        return root.left;
+      }
+
+      const succ = getSuccessor(root);
+      root.data = succ.data;
+      root.right = deleteItem(root.right, succ.data);
+    }
+    return root;
   }
 
   return{
     root,
     prettyPrint,
     insert,
+    deleteItem,
   }
 }
 
 
 let bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-bst.insert(bst.root, 2)
+bst.prettyPrint(bst.root);
+bst.deleteItem(bst.root, 324);
 bst.prettyPrint(bst.root);
