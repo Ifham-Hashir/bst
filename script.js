@@ -98,16 +98,33 @@ function Tree(array) {
     return root;
   }
 
+  function find(root, value){
+    let currentNode = root;
+    while (currentNode !== null){
+      if(currentNode.data === value){
+        return currentNode;
+      }
+      else if(value > currentNode.data){
+        currentNode = currentNode.right;
+      }
+      else if(value < currentNode.data){
+        currentNode = currentNode.left;
+      }
+    }
+    return null;
+  }
+
   return{
     root,
     prettyPrint,
     insert,
     deleteItem,
+    find,
   }
 }
 
 
 let bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 bst.prettyPrint(bst.root);
-bst.deleteItem(bst.root, 324);
-bst.prettyPrint(bst.root);
+
+console.log(bst.find(bst.root, 67))
