@@ -142,7 +142,55 @@ function Tree(array) {
         queue.push(currentNode.right);
       }
     }
+  }
 
+  function inOrderForEach(root, callback){
+    if(typeof callback !== "function"){
+      throw new Error("A callback function is required.");
+    }
+
+    if(root === null) {
+      return;
+    }
+
+    inOrderForEach(root.left, callback);
+
+    callback(root);
+
+    inOrderForEach(root.right, callback);
+
+  }
+
+  function preOrderForEach(root, callback){
+    if(typeof callback !== "function"){
+      throw new Error("A callback function is required.");
+    }
+
+    if(root === null) {
+      return;
+    }
+
+    callback(root);
+
+    preOrderForEach(root.left, callback);
+
+    preOrderForEach(root.right, callback);
+  }
+
+  function postOrderForEach(root, callback) {
+    if(typeof callback !== "function"){
+      throw new Error("A callback function is required.");
+    }
+
+    if(root === null) {
+      return;
+    }
+
+    postOrderForEach(root.left, callback);
+
+    postOrderForEach(root.right, callback);
+
+    callback(root);
   }
 
   return{
@@ -153,6 +201,9 @@ function Tree(array) {
     find,
     printData,
     levelOrderForEach,
+    inOrderForEach,
+    preOrderForEach,
+    postOrderForEach,
   }
 }
 
@@ -160,4 +211,7 @@ function Tree(array) {
 let bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 bst.prettyPrint(bst.root);
 
-bst.levelOrderForEach(bst.root, bst.printData);
+bst.postOrderForEach(bst.root, bst.printData);
+// bst.preOrderForEach(bst.root, bst.printData);
+// bst.inOrderForEach(bst.root, bst.printData);
+// bst.levelOrderForEach(bst.root, bst.printData);
