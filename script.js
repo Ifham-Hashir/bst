@@ -114,12 +114,45 @@ function Tree(array) {
     return null;
   }
 
+  function printData(node){
+    console.log(node.data);
+  }
+
+  function levelOrderForEach(root, callback){
+    if(typeof callback !== "function"){
+      throw new Error("A callback function is required.");
+    }
+
+    if(this.root === null){
+      return;
+    }
+
+    const queue = [root];
+
+    while(queue.length > 0){
+      const currentNode = queue.shift();
+
+      callback(currentNode);
+
+      if(currentNode.left !== null) {
+        queue.push(currentNode.left);
+      }
+
+      if(currentNode.right !== null) {
+        queue.push(currentNode.right);
+      }
+    }
+
+  }
+
   return{
     root,
     prettyPrint,
     insert,
     deleteItem,
     find,
+    printData,
+    levelOrderForEach,
   }
 }
 
@@ -127,4 +160,4 @@ function Tree(array) {
 let bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 bst.prettyPrint(bst.root);
 
-console.log(bst.find(bst.root, 67))
+bst.levelOrderForEach(bst.root, bst.printData);
