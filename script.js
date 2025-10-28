@@ -242,6 +242,60 @@ function Tree(array) {
     return null;
   }
 
+  function isBalanced(root) {
+    
+    
+    function checkBalanceAndHeight(node) {
+      
+      if (node === null) {
+        return -1;
+      }
+
+      
+      const leftHeight = checkBalanceAndHeight(node.left);
+      
+      
+      if (leftHeight === Infinity) {
+        return Infinity;
+      }
+
+      
+      const rightHeight = checkBalanceAndHeight(node.right);
+
+      
+      if (rightHeight === Infinity) {
+        return Infinity;
+      }
+
+      
+      if (Math.abs(leftHeight - rightHeight) > 1) {
+        return Infinity;
+      }
+
+      return 1 + Math.max(leftHeight, rightHeight);
+    }
+    
+
+    const result = checkBalanceAndHeight(root); 
+
+    return result !== Infinity;
+  }
+
+  function rebalance(root) {
+    const nodesArray = [];
+
+    function pushData(node) {
+      nodesArray.push(node.data);
+    }
+
+    inOrderForEach(root, pushData);
+
+    const newStart = 0;
+    const newEnd = nodesArray.length - 1;
+    
+    this.root = buildTree(nodesArray, newStart, newEnd);
+  }
+
   return{
     root,
     prettyPrint,
@@ -255,6 +309,8 @@ function Tree(array) {
     postOrderForEach,
     height,
     depth,
+    isBalanced,
+    rebalance,
   }
 }
 
@@ -262,9 +318,23 @@ function Tree(array) {
 let bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 bst.prettyPrint(bst.root);
 
+console.log(bst.isBalanced(bst.root))
 // console.log(bst.depth(bst.root, 324))
 // console.log(bst.height(bst.root, 23, bst.find))
 // bst.postOrderForEach(bst.root, bst.printData);
 // bst.preOrderForEach(bst.root, bst.printData);
 // bst.inOrderForEach(bst.root, bst.printData);
 // bst.levelOrderForEach(bst.root, bst.printData);
+
+//Unbalancing the tree
+bst.insert(bst.root, 7000);
+bst.insert(bst.root, 8000);
+bst.insert(bst.root, 9000);
+
+console.log(bst.isBalanced(bst.root)); 
+bst.prettyPrint(bst.root); 
+
+bst.rebalance(bst.root);
+
+console.log(bst.isBalanced(bst.root));
+bst.prettyPrint(bst.root);
