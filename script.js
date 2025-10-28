@@ -193,6 +193,55 @@ function Tree(array) {
     callback(root);
   }
 
+  function height(root, value, callback) {
+
+    const node = callback(root, value);
+
+    if(node === null) {
+      return null;
+    }
+
+    const queue = [node];
+    let height = -1;
+
+    while(queue.length > 0){
+      height++;
+      let levelSize = queue.length;
+
+      for(let i = 0; i < levelSize; i++){
+        const currentNode = queue.shift();
+
+        if(currentNode.left !== null){
+          queue.push(currentNode.left);
+        }
+
+        if(currentNode.right !== null){
+          queue.push(currentNode.right);
+        }
+      }
+    }
+    return height;
+  }
+
+  function depth(root, value){
+    let currentNode = root;
+    let depth = 0;
+    while (currentNode !== null){
+      if(currentNode.data === value){
+        return depth;
+      }
+      else if(value > currentNode.data){
+        depth++;
+        currentNode = currentNode.right;
+      }
+      else if(value < currentNode.data){
+        depth++;
+        currentNode = currentNode.left;
+      }
+    }
+    return null;
+  }
+
   return{
     root,
     prettyPrint,
@@ -204,6 +253,8 @@ function Tree(array) {
     inOrderForEach,
     preOrderForEach,
     postOrderForEach,
+    height,
+    depth,
   }
 }
 
@@ -211,7 +262,9 @@ function Tree(array) {
 let bst = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 bst.prettyPrint(bst.root);
 
-bst.postOrderForEach(bst.root, bst.printData);
+// console.log(bst.depth(bst.root, 324))
+// console.log(bst.height(bst.root, 23, bst.find))
+// bst.postOrderForEach(bst.root, bst.printData);
 // bst.preOrderForEach(bst.root, bst.printData);
 // bst.inOrderForEach(bst.root, bst.printData);
 // bst.levelOrderForEach(bst.root, bst.printData);
